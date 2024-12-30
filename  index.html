@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新年快乐 2024->2025</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        
+        .container {
+            position: relative;
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+        }
+        
+        .year {
+            font-size: min(120px, 15vw);
+            color: #fff;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .num-container {
+            display: inline-block;
+            position: relative;
+            width: 0.7em;
+            height: 1em;
+            vertical-align: baseline;
+        }
+        
+        .num {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        
+        #num4 {
+            animation: flyAway 1s ease-in forwards;
+            animation-delay: 1s;
+        }
+        
+        #num5 {
+            opacity: 0;
+            animation: flyIn 1s ease-out forwards;
+            animation-delay: 1s;
+        }
+        
+        .greeting {
+            position: relative;
+            color: #ff0;
+            font-size: min(60px, 10vw);
+            opacity: 0;
+            margin-top: 2em;
+            animation: showGreeting 1s ease-out forwards;
+            animation-delay: 2s;
+        }
+        
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            animation: explode 1s ease-out forwards;
+        }
+        
+        @keyframes flyAway {
+            to {
+                transform: translateY(-200px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes flyIn {
+            from {
+                transform: translateY(200px) rotate(-720deg);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes showGreeting {
+            to {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+        
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty));
+                opacity: 0;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .greeting {
+                margin-top: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="year">
+            202<span class="num-container"><span class="num" id="num4">4</span><span class="num" id="num5">5</span></span>
+        </div>
+        <div class="greeting">新年快乐</div>
+    </div>
+
+    <script>
+        function createFirework(x, y) {
+            const colors = ['#ff0', '#f0f', '#0ff', '#0f0', '#f00'];
+            const particles = 30;
+            
+            for(let i = 0; i < particles; i++) {
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                firework.style.left = x + 'px';
+                firework.style.top = y + 'px';
+                firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                const angle = (Math.PI * 2 * i) / particles;
+                const velocity = 100 + Math.random() * 100;
+                firework.style.setProperty('--tx', Math.cos(angle) * velocity + 'px');
+                firework.style.setProperty('--ty', Math.sin(angle) * velocity + 'px');
+                
+                document.body.appendChild(firework);
+                
+                setTimeout(() => {
+                    firework.remove();
+                }, 1000);
+            }
+        }
+
+        setTimeout(() => {
+            const interval = setInterval(() => {
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight;
+                createFirework(x, y);
+            }, 300);
+
+            setTimeout(() => {
+                clearInterval(interval);
+            }, 3000);
+        }, 2000);
+    </script>
+</body>
+</html>
